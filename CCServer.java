@@ -4,7 +4,7 @@ import java.nio.file.*;
 import java.nio.charset.*;
 
 class CCServer {
-    public static void main(String args[]) throws Exception {
+    public static void main(String args[]) throws Exception {            
 	if (args.length != 1) {
 	    System.out.println("usage: java CCServer port");
 	    System.exit(-1);
@@ -13,6 +13,20 @@ class CCServer {
 
 	ServerSocket ssock = new ServerSocket(port);
 	System.out.println("listening on port " + port);
+        
+    Runtime.getRuntime().addShutdownHook(new Thread() {
+        @Override
+        public void run() {
+            System.out.println("SIGTERM/SIGKILL/SIGINT received.");
+            try{
+                ssock.close();
+                System.out.println("Terminate the socket server.");
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+        }   
+    });
+        
 	while(true) {
 	    try {
 		
@@ -20,40 +34,40 @@ class CCServer {
             Socket conn = ssock.accept();
             System.out.println("Connection b/w client and server is established.");
           
-            DataInputStream din = new DataInputStream(conn.getInputStream());
-	        int respDataLen = din.readInt();
-	        System.out.println("Server: received data payload has length " + respDataLen);
-	        byte[] bytes = new byte[respDataLen];
-	        din.readFully(bytes);
-	        //String data = new String(bytes, StandardCharsets.UTF_8);
-            //System.out.println("data = " + data);
+            while(true){
+                //	- read requests from connection repeatedly    
+                InputStream is;
+                DataInputStream din;
+                int dataLength;
+                try{
+                    is = conn.getInputStream();
+                    din = new DataInputStream(is);
+	                dataLength = din.readInt();
+                }catch(IOException e){
+                    System.out.println("Client has terminated the connection. Moving on.");
+                    break;
+                }      
+	        
+                byte[] bytes = new byte[dataLength];
+	            din.readFully(bytes);
             
-            DataOutputStream dout = new DataOutputStream(conn.getOutputStream());
-	        long startTime = System.currentTimeMillis();
-	        dout.writeInt(bytes.length);
-	        dout.write(bytes);
-	        dout.flush();
-	        System.out.println("Server: sent response header and " + bytes.length + " bytes of payload data to client");
-            
-            conn.close();
-            //terminate the server if client sends exit request
-//            if(msg.equalsIgnoreCase("exit")) break;
-            break;
-//		  - read requests from connection repeatedly
-//		  - for each request, compute an output and send a response
-//		  - each message has a 4-byte header followed by a payload
-//		  - the header is the length of the payload
-//		    (signed, two's complement, big-endian)
-//		  - the payload is a string
-//		    (UTF-8, big-endian)
-		
+                //	- for each request, compute an output and send a response    
+                DataOutputStream dout = new DataOutputStream(conn.getOutputStream());
+                //	- each message has a 4-byte header followed by a payload
+                //	- the header is the length of the payload
+                //	  (signed, two's complement, big-endian)
+                dout.writeInt(bytes.length);
+        
+                //	- the payload is a string
+                //	(UTF-8, big-endian)
+	            dout.write(bytes);
+	            dout.flush();    
+            }
+
+            conn.close();	
 	    } catch (Exception e) {
-		e.printStackTrace();
+		  e.printStackTrace();
 	    }
 	}
-    
-        System.out.println("Shutting down Socket server!!");
-        //close the ServerSocket object
-        ssock.close();
     }
 }
