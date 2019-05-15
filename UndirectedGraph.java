@@ -47,7 +47,7 @@ class UndirectedGraph {
         } 
     }
     
-    public HashMap<Integer, Integer> connectedComponents(){
+    public HashMap<Integer, Integer> generateLabels(){
         ArrayList<ArrayList<Integer>> components = new ArrayList<ArrayList<Integer>>();
         HashMap<Integer, Boolean> visited = new HashMap<Integer, Boolean>();
         HashMap<Integer, Integer> result = new HashMap<Integer, Integer>();
@@ -80,9 +80,9 @@ class UndirectedGraph {
 		g.addEdge(3, 4); 
         System.out.println("**Adjacency List:**");
 		g.printAdjacencyList(); 
-        System.out.println("**Connected Components:**");
-        HashMap<Integer, Integer> components = g.connectedComponents();
-        System.out.println(components.toString());
+        System.out.println("**Nodes with Labels:**");
+        HashMap<Integer, Integer> labeledNodes = g.generateLabels();
+        System.out.println(labeledNodes.toString());
         
 	} 
 }
