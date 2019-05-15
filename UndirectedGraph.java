@@ -48,7 +48,7 @@ class UndirectedGraph {
     }
     
     public HashMap<Integer, Integer> generateLabels(){
-        ArrayList<ArrayList<Integer>> components = new ArrayList<ArrayList<Integer>>();
+//        ArrayList<ArrayList<Integer>> components = new ArrayList<ArrayList<Integer>>();
         HashMap<Integer, Boolean> visited = new HashMap<Integer, Boolean>();
         HashMap<Integer, Integer> result = new HashMap<Integer, Integer>();
         
@@ -59,7 +59,7 @@ class UndirectedGraph {
         for(Integer node: this.adjacencyList.keySet()){
             if(visited.get(node).equals(Boolean.FALSE)){
                 ArrayList<Integer> component = new ArrayList<Integer>();
-                components.add(component);
+//                components.add(component);
                 depthFirstSearch(node, visited, component);
                 
                 Integer label = Collections.min(component);
