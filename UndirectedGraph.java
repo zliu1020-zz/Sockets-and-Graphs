@@ -47,9 +47,11 @@ class UndirectedGraph {
         } 
     }
     
-    public ArrayList<ArrayList<Integer>> connectedComponents(){
+    public HashMap<Integer, Integer> connectedComponents(){
         ArrayList<ArrayList<Integer>> components = new ArrayList<ArrayList<Integer>>();
         HashMap<Integer, Boolean> visited = new HashMap<Integer, Boolean>();
+        HashMap<Integer, Integer> result = new HashMap<Integer, Integer>();
+        
         for (Integer node: this.adjacencyList.keySet()){
             visited.put(node, Boolean.FALSE);
         }
@@ -59,16 +61,16 @@ class UndirectedGraph {
                 ArrayList<Integer> component = new ArrayList<Integer>();
                 components.add(component);
                 depthFirstSearch(node, visited, component);
+                
+                Integer label = Collections.min(component);
+                for(Integer i: component){
+                    result.put(i, label);
+                }
             }
         }
         
-        return components;
+        return result;
     }
-    
-//    public void generateComponentLabels(){
-//        ArrayList<ArrayList<Integer>> components = g.connectedComponents();
-//        HashMap<Integer, Integer> result = new HashMap<Integer, Integer>();
-//    }
     
 	public static void main(String[] args){ 
 		UndirectedGraph g = new UndirectedGraph(); 
@@ -79,9 +81,8 @@ class UndirectedGraph {
         System.out.println("**Adjacency List:**");
 		g.printAdjacencyList(); 
         System.out.println("**Connected Components:**");
-        ArrayList<ArrayList<Integer>> components = g.connectedComponents();
-        for(ArrayList<Integer> component: components){
-            System.out.println(component.toString());
-        }
+        HashMap<Integer, Integer> components = g.connectedComponents();
+        System.out.println(components.toString());
+        
 	} 
 }
