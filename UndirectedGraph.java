@@ -47,10 +47,10 @@ class UndirectedGraph {
         } 
     }
     
-    public HashMap<Integer, Integer> generateLabels(){
-//        ArrayList<ArrayList<Integer>> components = new ArrayList<ArrayList<Integer>>();
+    public String generateLabels(){
         HashMap<Integer, Boolean> visited = new HashMap<Integer, Boolean>();
         HashMap<Integer, Integer> result = new HashMap<Integer, Integer>();
+        StringBuilder sb = new StringBuilder();
         
         for (Integer node: this.adjacencyList.keySet()){
             visited.put(node, Boolean.FALSE);
@@ -59,30 +59,15 @@ class UndirectedGraph {
         for(Integer node: this.adjacencyList.keySet()){
             if(visited.get(node).equals(Boolean.FALSE)){
                 ArrayList<Integer> component = new ArrayList<Integer>();
-//                components.add(component);
                 depthFirstSearch(node, visited, component);
                 
                 Integer label = Collections.min(component);
                 for(Integer i: component){
-                    result.put(i, label);
+                    sb.append(i + " " + label + "\n");
                 }
             }
         }
         
-        return result;
+        return sb.toString();
     }
-    
-	public static void main(String[] args){ 
-		UndirectedGraph g = new UndirectedGraph(); 
-		
-		g.addEdge(1, 0); 
-		g.addEdge(2, 3); 
-		g.addEdge(3, 4); 
-        System.out.println("**Adjacency List:**");
-		g.printAdjacencyList(); 
-        System.out.println("**Nodes with Labels:**");
-        HashMap<Integer, Integer> labeledNodes = g.generateLabels();
-        System.out.println(labeledNodes.toString());
-        
-	} 
 }
