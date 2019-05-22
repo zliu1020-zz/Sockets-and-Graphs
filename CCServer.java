@@ -60,7 +60,7 @@ class CCServer {
 			Integer destination = Integer.parseInt(st.nextToken());
 			g.build(source, destination);
 		}
-
+		g.connectEdges();
 		String resultStr = g.generateLabels();
 		byte[] result = resultStr.getBytes("UTF-8");
 		//	- for each request, compute an output and send a response    
