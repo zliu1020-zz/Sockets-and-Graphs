@@ -54,26 +54,26 @@ class CCServer {
 		
 		String str = new String(bytes, StandardCharsets.UTF_8);
 		StringTokenizer st = new StringTokenizer(str);
-//		UndirectedGraph g = new UndirectedGraph();
+		UndirectedGraph g = new UndirectedGraph();
 		while(st.hasMoreElements()){
 			Integer source = Integer.parseInt(st.nextToken());
 			Integer destination = Integer.parseInt(st.nextToken());
-//			g.addEdge(source, destination);
+			g.build(source, destination);
 		}
 
-//		String resultStr = g.generateLabels();
-//		byte[] result = resultStr.getBytes("UTF-8");
+		String resultStr = g.generateLabels();
+		byte[] result = resultStr.getBytes("UTF-8");
 		//	- for each request, compute an output and send a response    
                 DataOutputStream dout = new DataOutputStream(conn.getOutputStream());
                 //	- each message has a 4-byte header followed by a payload
                 //	- the header is the length of the payload
                 //	  (signed, two's complement, big-endian)
-//                dout.writeInt(result.length);
+                dout.writeInt(result.length);
         
                 //	- the payload is a string
                 //	(UTF-8, big-endian)
-//	            dout.write(result);
-//	            dout.flush();    
+	            dout.write(result);
+	            dout.flush();    
             }
 
             conn.close();	
