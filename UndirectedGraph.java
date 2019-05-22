@@ -15,9 +15,7 @@ class UndirectedGraph {
     }
     
     public void addEdge(int aID, int bID){
-    	Node a = nodes.get(aID);
-    	Node b = nodes.get(bID);
-    	Edge edge = new Edge(a, b);
+    	Edge edge = new Edge(aID, bID);
     	edges.add(edge);
     }
     
@@ -32,7 +30,8 @@ class UndirectedGraph {
     }
     
     public Node findRoot(Node node) {
-    	if (node.parentID != node.id) 
+    	if (node.parentID != node.id)
+    		// parent node
     		return findRoot(nodes.get(node.parentID));
     	return node;
     }
@@ -45,15 +44,15 @@ class UndirectedGraph {
     	// if aRoot's rank > bRoot's rank
     	if (aRoot.rank > bRoot.rank) {
         	// attach bRoot to a's tree
-    		bRoot.parentID = a.id;
+    		bRoot.parentID = aRoot.id;
         	// if aRoot's rank < bRoot's rank
     	} else if (aRoot.rank < bRoot.rank) {
     		// attach aRoot to b's tree
-    		aRoot.parentID = b.id;
+    		aRoot.parentID = bRoot.id;
     		// if aRoot's rank == bRoot's rank
     	} else {
     		// choose any root nodes to be the parent
-    		bRoot.parentID = a.id;
+    		bRoot.parentID = aRoot.id;
     		// increase the rank
     		aRoot.rank ++;
     	}
@@ -61,8 +60,9 @@ class UndirectedGraph {
     
     public void connectEdges() {
     	for(Edge edge : edges) {
-    		Node a = edge.a;
-    		Node b = edge.b;
+    		
+    		Node a = nodes.get(edge.aID);
+    		Node b = nodes.get(edge.bID);
     		
     		Node aRoot = findRoot(a);
     		Node bRoot = findRoot(b);
@@ -72,14 +72,8 @@ class UndirectedGraph {
     			
     		} else {
     			merge(a, b);
-//    	        for (HashMap.Entry<Integer, Node> entry: nodes.entrySet()) {
-//    	        	System.out.println("ID: " + entry.getKey() + " ParentID: " + entry.getValue().parentID + " Rank: " + entry.getValue().rank);
-//    	        }
     		}
     	}
-//        for (HashMap.Entry<Integer, Node> entry: nodes.entrySet()) {
-//        	System.out.println("ID: " + entry.getKey() + " ParentID: " + entry.getValue().parentID + " Rank: " + entry.getValue().rank);
-//        }
     	printNodes();
     }
     

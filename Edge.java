@@ -1,11 +1,11 @@
 public class Edge {
 	
-	Node a;
-	Node b;
+	int aID;
+	int bID;
 	
-	public Edge(Node a, Node b) {
-		this.a = a;
-		this.b = b;
+	public Edge(int aID, int bID) {
+		this.aID = aID;
+		this.bID = bID;
 	}
 
 }
