@@ -94,7 +94,7 @@ class UndirectedGraph {
     public String generateLabels() {
     	StringBuilder sb = new StringBuilder();
         for (HashMap.Entry<Integer, Node> entry: nodes.entrySet()) {
-        	sb.append(entry.getKey() + " " + entry.getValue().parentID + "\n");
+        	sb.append(entry.getKey() + " " + findRoot(entry.getValue()).id + "\n");
         }
         return sb.toString();
     }
