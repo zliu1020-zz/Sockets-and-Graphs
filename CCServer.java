@@ -53,7 +53,6 @@ class CCServer {
 	        din.readFully(bytes);
 		
 		String str = new String(bytes, StandardCharsets.UTF_8);
-		long startTime1 = System.currentTimeMillis();
 		StringTokenizer st = new StringTokenizer(str);
 		UndirectedGraph g = new UndirectedGraph();
 		while(st.hasMoreElements()){
@@ -61,12 +60,8 @@ class CCServer {
 			Integer destination = Integer.parseInt(st.nextToken());
 			g.merge(source, destination);
 		}
-		long endTime1 = System.currentTimeMillis();
-		long startTime2 = System.currentTimeMillis();
 		String resultStr = g.generateLabels();
-		long endTime2 = System.currentTimeMillis();
-		System.out.println("SystemTime 1:" + (endTime1 - startTime1));
-		System.out.println("SystemTime 2:" + (endTime2 - startTime2));
+
 		byte[] result = resultStr.getBytes("UTF-8");
 		//	- for each request, compute an output and send a response    
                 DataOutputStream dout = new DataOutputStream(conn.getOutputStream());
