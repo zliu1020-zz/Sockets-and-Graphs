@@ -15,18 +15,18 @@ class CCServer {
 		ServerSocket ssock = new ServerSocket(port);
 		System.out.println("listening on port " + port);
 
-		Runtime.getRuntime().addShutdownHook(new Thread() {
-			@Override
-			public void run() {
-				System.out.println("SIGTERM/SIGKILL/SIGINT received.");
-				try {
-					ssock.close();
-					System.out.println("Terminate the socket server.");
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
+		// Runtime.getRuntime().addShutdownHook(new Thread() {
+		// 	@Override
+		// 	public void run() {
+		// 		System.out.println("SIGTERM/SIGKILL/SIGINT received.");
+		// 		try {
+		// 			ssock.close();
+		// 			System.out.println("Terminate the socket server.");
+		// 		} catch (Exception e) {
+		// 			e.printStackTrace();
+		// 		}
+		// 	}
+		// });
 
 		while (true) {
 			try {
