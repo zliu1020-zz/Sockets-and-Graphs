@@ -12,10 +12,8 @@ class UndirectedGraph {
     }
     
     public int findRoot(int nodeID) {
-    	// path halving
+        // find the root by travesing up the chain
     	while (nodeID != nodeParentIDs.get(nodeID)) {
-    		nodeParentIDs.put(nodeID, 
-    				nodeParentIDs.get(nodeParentIDs.get(nodeID)));
     		nodeID = nodeParentIDs.get(nodeID);
     	}
     	
